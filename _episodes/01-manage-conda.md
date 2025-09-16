@@ -68,6 +68,8 @@ when software versions change their first-digit numbers, e.g., from v0.5 to v1.0
 By keeping an environment _frozen_ with all the Python scripts and notebooks that are working correctly, 
 you can ensure that they will still work correctly weeks, months, even years later.
 
+ORC recommends a special, minimal installation of conda called _Miniforge_. 
+
 ## Setting up Conda on your Hopper account 
 
 From a terminal session on Hopper, 
@@ -101,15 +103,13 @@ $ module unload python
 ~~~
 {: .language-bash}
 
-Now we are ready to run Conda. From the terminal command line on Hopper, type two commands:
+Now we are ready to install Conda. From the terminal command line on Hopper, type two commands:
 
 ~~~
-$ module load anaconda3
-$ conda init bash
-~~~
-{: .language-bash}
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
 
-Now, you should see something different in your command line prompt.  Before it looked something like this:
+~~~
+bash Miniforge3-Linux-x86_64.sh -b -p $HOME/miniforge
 
 ~~~
 [yourname@hopper1 ~]$
