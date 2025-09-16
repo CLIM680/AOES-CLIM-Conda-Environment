@@ -129,21 +129,19 @@ But now it looks like this:
 
 That extra word in parentheses is your _Conda environment_. By default it is `base`. 
 
+In this class we will use a faster version of conda that comes installed with Miniforge called _mamba_. 
+
+_mamba_ works exactly like conda for all practical purposes, but handles installation of libraries much faster.
+
 Let's have a look at the environments available to you:
 
 ~~~
-$ conda env list
+$ mamba env list
 ~~~
 {: .language-bash}
 
 You will see a list of Conda environment names, along with their paths - all (probably) 
-residing under the `/opt` first-level directory on the cluster.
-
-If you look closely, there is one called `clim680`. We are _not_ going to use that one.
-Why? Because it is owned by `opsadmin` and not us, which means we cannot modify it.
-The whole point of Conda environments is that they are customizable. 
-Instead, we will each create our own copy of that environment, 
-and add some missing packages that we will need for this class.
+residing under the `/opt` first-level directory on the cluster. 
 
 ## Making a new environment
 
@@ -152,24 +150,26 @@ One way is to create and share `.yaml` files (YAML stands for "yet another marku
 document all the pakages and versions in an environment, so that they can be duplicated
 by downloading and installing all the right files.
 
-Since we have the `clim680` environment on our system already, we will **clone** it to a new name and
-location under our home directory, and then update it to suit our needs.
-Let's name the new environment for this class `clim_data`:
+To create an empty environment:
 
 ~~~
-$ conda create --clone clim680 --name clim_data
+$ mamba create --name testenv1
 ~~~
 {: .language-bash}
+
+I have created a conda environment that has all the libraries we will need for this class and made a 
+YAML file for it. Install it like this: 
+
+~~~
+$  mamba env create -f /home/lortizur/clim680/climate.yml 
 
 It will take some time to complete this command. Conda will verify that all of the
 packages are compatable with one another before installing the copy in our home directory.
 
-![A little longer than a few minutes later...](../fig/spongebob_later.jpg)
-
 Once complete, you can see that your new environment is listed among the others:
 
 ~~~
-$ conda env list
+$ mamba env list
 ~~~
 {: .language-bash}
 Furthermore, you will see that your new environment's path is under your home directory, not a system directory. 
@@ -182,7 +182,7 @@ From the command like in your `bash` shell, we can change the active environment
 the `activate` command in Conda:
 
 ~~~
-$ conda activate clim_data
+$ mamba activate clim680
 ~~~
 {: .language-bash}
 
@@ -195,12 +195,10 @@ Let's install a few packages that we will need later in this class:
 * `esmpy` is a Python package for functions used in the Earth System Modeling Framework (ESMF) - also very useful for Climate Science.
 
 ~~~
-$ conda install -c conda-forge cftime cfgrib metpy esmpy
+$ mamba install cftime cfgrib metpy esmpy
 ~~~
 {: .language-bash}
 
-Here, `conda-forge` is the name of the main **channel** for software in the Conda universe - it is the most
-complete and most likely to have all the things we need. 
 You can set up a prioritized list of channels to search for packages. 
 The [Conda documentation](https://docs.conda.io/projects/conda/en/latest/commands.html) shows you how.
 Some specialty packages are only available on specific sites, and may not be on the most popular sites. 
@@ -248,14 +246,14 @@ However, it is usually less confusing to keep the name of the kernel the same as
 We can list the versions of all Python packages we have access to in the active environment with the command:
 
 ~~~
-$ conda list
+$ mamba list
 ~~~
 {: .language-bash}
 
 This list is very long.  We can list specific packages, or use wildcards to find packages whose name contains a particular string.
 
 ~~~
-$ conda list xarray
+$ mamba list xarray
 ~~~
 {: .language-bash}
 
@@ -268,7 +266,7 @@ xarray                    0.20.1                   pypi_0    pypi
 You can also search the contents of a channel for packages, also using wildcards if you want:
 
 ~~~
-$ conda search -c conda-forge metpy
+$ mamba search -c conda-forge metpy
 ~~~
 {: .language-bash}
 
@@ -288,7 +286,7 @@ metpy                          1.3.1    pyhd8ed1ab_0  conda-forge
 Specific versions or ranges of versions of packages can be queried:
 
 ~~~
-$ conda search -c conda-forge "metpy>=1.0"
+$ mamba search -c conda-forge "metpy>=1.0"
 ~~~
 {: .language-bash}
 
@@ -306,7 +304,7 @@ metpy                          1.3.1    pyhd8ed1ab_0  conda-forge
 You can create a catalog of the current state of this environment by writing it out to a .yaml file:
 
 ~~~
-$ conda env export > clim_data.yaml
+$ mamba env export > clim_data.yaml
 ~~~
 {: .language-bash}
 
@@ -314,7 +312,7 @@ Later, if you want to update it with changes you have made (e.g., after installi
 you can update it:
 
 ~~~
-$ conda env update -f clim_data.yaml
+$ mamba env update -f clim_data.yaml
 ~~~
 {: .language-bash}
 
@@ -327,7 +325,7 @@ If someone shares an environment file with you, you can make a Conda environment
 `env create` command:
 
 ~~~
-$ conda env create --file <colleague's_file>.yaml
+$ mamba env create --file <colleague's_file>.yaml
 ~~~
 
 The name of the new environment is not necessarily the same as the filename - the first line of the `.yaml`
