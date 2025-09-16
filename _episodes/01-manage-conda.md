@@ -110,8 +110,8 @@ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge
 
 ~~~
 
-
 bash Miniforge3-Linux-x86_64.sh -b -p $HOME/miniforge
+~~~
 {: .language-bash}
 ~~~
 [yourname@hopper1 ~]$
