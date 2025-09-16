@@ -107,12 +107,14 @@ Now we are ready to install Conda. From the terminal command line on Hopper, typ
 
 ~~~
 wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+~~~
+{: .language-bash}
 
 ~~~
-
 bash Miniforge3-Linux-x86_64.sh -b -p $HOME/miniforge
 ~~~
 {: .language-bash}
+
 ~~~
 [yourname@hopper1 ~]$
 ~~~
